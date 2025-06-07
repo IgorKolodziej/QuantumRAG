@@ -26,4 +26,4 @@ if st.button("Zaloguj się"):
     else:
         st.session_state["hf_token"] = token
         st.success("✅ Token poprawny!")
-        st.page_link("pages/app.py", label="👉 Przejdź do aplikacji")
+        st.page_link("pages/qa.py", label="👉 Przejdź do aplikacji")
