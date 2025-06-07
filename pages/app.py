@@ -1,9 +1,11 @@
 import streamlit as st
 import json
 import pandas as pd
-from src.components.ContextRetriever import ContextRetriever
-from src.components.GroverTopK import GroverTopK
-from src.components.AgentHandler import AgentHandler
+from utils.ContextRetriever import ContextRetriever
+from utils.GroverTopK import GroverTopK
+from utils.AgentHandler import AgentHandler
+import os
+
 #from gpt_final_answer import generate_answer_from_contexts
 grover_top_k = GroverTopK()
 MODEL_NAME = 'mixedbread-ai/mxbai-embed-large-v1'
@@ -13,6 +15,13 @@ TOP_K_FINAL = 3
 
 EMBEDDINGS_FILE = "saved_embeddings/squad_embeddings_mixedbread_ai_mxbai_embed_large_v1.npy"
 DOCS_LIST_FILE = "saved_embeddings/squad_docs_mixedbread_ai_mxbai_embed_large_v1.json"
+
+if "hf_token" not in st.session_state or not st.session_state.hf_token:
+    st.warning("❌ Nie jesteś zalogowany. Wróć do strony logowania.")
+    st.stop()
+else:
+    st.toast("✅ Jesteś zalogowany!")
+
 
 # Context retriever
 retriever = ContextRetriever(
@@ -49,7 +58,7 @@ if user_question:
 
         with st.spinner("Generating answer..."):
             # Generate the final answer from the top k contexts
-            agent_handler = AgentHandler()
+            agent_handler = AgentHandler(api_key=st.session_state.hf_token)
             agents_output = agent_handler.compare_all(user_question, top_k_contexts)
             
 
