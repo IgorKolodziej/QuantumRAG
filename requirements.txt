@@ -10,7 +10,8 @@ streamlit
 torch
 transformers
 sentence-transformers
-tokenizers==0.13.3
+tokenizers==0.13.3 --only-binary=:all:
+huggingface_hub
 
 # Vector similarity search
 faiss-cpu
@@ -20,3 +21,5 @@ faiss-cpu
 numpy
 tqdm
 requests
+pandas
+scikit-learn
