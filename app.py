@@ -4,15 +4,27 @@ import pandas as pd
 from src.components.ContextRetriever import ContextRetriever
 from src.components.GroverTopK import GroverTopK
 from src.components.AgentHandler import AgentHandler
+import os
+
+# Get the directory where the current script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+print(f"Script directory: {script_dir}")
+
+# Build absolute paths
+EMBEDDINGS_FILE = os.path.join(script_dir, "saved_embeddings", "squad_embeddings_mixedbread_ai_mxbai_embed_large_v1.npy")
+DOCS_LIST_FILE = os.path.join(script_dir, "saved_embeddings", "squad_docs_mixedbread_ai_mxbai_embed_large_v1.json")
+
+# Debug: Check if files exist
+print(f"Embeddings file exists: {os.path.exists(EMBEDDINGS_FILE)}")
+print(f"Docs file exists: {os.path.exists(DOCS_LIST_FILE)}")
+print(f"Current working directory: {os.getcwd()}")
+
 #from gpt_final_answer import generate_answer_from_contexts
 grover_top_k = GroverTopK()
 MODEL_NAME = 'mixedbread-ai/mxbai-embed-large-v1'
 QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 TOP_K_FIRST = 10
 TOP_K_FINAL = 3
-
-EMBEDDINGS_FILE = "saved_embeddings/squad_embeddings_mixedbread_ai_mxbai_embed_large_v1.npy"
-DOCS_LIST_FILE = "saved_embeddings/squad_docs_mixedbread_ai_mxbai_embed_large_v1.json"
 
 # Context retriever
 retriever = ContextRetriever(
