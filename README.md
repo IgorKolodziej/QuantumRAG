@@ -106,8 +106,20 @@ The Streamlit interface supports model comparison, context inspection, and colla
 - GroverTopK runs on the Qiskit Aer simulator rather than quantum hardware.
 - Results are research-oriented and not intended as production benchmarks.
 
+## Why Grover Here?
+Grover's algorithm is designed for unstructured search with a marked-item oracle. In this project it is used as a quantum-inspired top-k selector on a small, already ranked candidate set (top-10 from FAISS), mainly to explore the integration of quantum techniques in a RAG pipeline. Because the selection runs on a simulator and the search space is small, it does not offer a practical speedup over classical selection. For production retrieval quality or efficiency, classical approaches (e.g., improved embeddings, larger ANN indices, or reranking) are typically more impactful.
+
+## GroverTopK Mechanics
+The Grover selector in `src/components/GroverTopK.py` works as follows:
+1. **Thresholding**: a dynamic threshold is adjusted to target roughly `k` items above the similarity cutoff.
+2. **Marked indices**: all candidates exceeding the threshold are marked.
+3. **Oracle**: a Grover oracle is built by applying multi-controlled X gates (MCX) to mark the target bitstrings.
+4. **Diffusion**: a standard diffusion operator is applied to amplify marked states.
+5. **Sampling**: the circuit runs on the Qiskit Aer simulator for a fixed number of shots.
+6. **Top-k extraction**: the most frequent bitstrings are mapped back to candidate indices to return the top contexts.
+
 ## Acknowledgements
 This project builds on SQuAD, Qiskit, FAISS, and Hugging Face tooling.
 
 ## License
-No license file is currently included in this repository.
+MIT License. See `LICENSE`.
