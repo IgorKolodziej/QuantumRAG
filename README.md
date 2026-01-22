@@ -53,6 +53,36 @@ Outputs:
 
 The repository also includes prior results and plots under `tests/evaluation/` and a narrative summary in `tests/tests_summary.md`.
 
+## Results (Included Artifacts)
+The plots and numbers below are from the included evaluation summary (`tests/tests_summary.md`) and the saved artifacts in `tests/evaluation/`.
+
+### Test 1: Answer Quality (SQuAD 1.1, 63 questions)
+- Compared Grover vs. classic context selection across model and context variants.
+- Reported trend: top-3 contexts outperform top-1, and no-context performs worst.
+
+![Cosine Similarity Comparison](tests/evaluation/results_images/cosine_summary_plot.png)
+
+### Test 2: End-to-End Timing (SQuAD 1.1, 56 questions)
+Reported averages:
+| Component | Time |
+| --- | --- |
+| Context retrieval (top-10) | 0.297 s |
+| Grover selection (top-3) | 0.030 s |
+| Answer generation (`mixtral-8x7b`) | 1.18 s |
+| Answer generation (`llama-3-8b`) | 2.56 s |
+| Answer generation (`phi-3.5`) | 2.65 s |
+
+![Timing vs Quality](tests/evaluation/results_images/cosine_summary_plot2.png)
+
+## UI Demo
+The Streamlit interface supports model comparison, context inspection, and collapsible answers:
+
+| Screen | Preview |
+| --- | --- |
+| Home | ![Home](tests/evaluation/GUI_images/home_page.png) |
+| Answers | ![Answers](tests/evaluation/GUI_images/answer_page2.png) |
+| Top Contexts | ![Contexts](tests/evaluation/GUI_images/top3.png) |
+
 ## Data and Artifacts
 - `squad_dataset/train-v1.1.json` is the SQuAD 1.1 dataset used by the evaluation scripts.
 - `saved_embeddings/` contains embeddings and document lists for the default model and dataset.
