@@ -57,13 +57,17 @@ The repository also includes prior results and plots under `tests/evaluation/` a
 The plots and numbers below are from the included evaluation summary (`tests/tests_summary.md`) and the saved artifacts in `tests/evaluation/`.
 
 ### Test 1: Answer Quality (SQuAD 1.1, 63 questions)
-- Compared Grover vs. classic context selection across model and context variants.
-- Reported trend: top-3 contexts outperform top-1, and no-context performs worst.
+- Objective: compare Grover vs. classic context selection across LLMs and context variants (`no_context`, `top1`, `top3`).
+- Metrics: word overlap (with vs. without context) and cosine similarity vs. the ideal answer.
+- Key insights from the recorded summary:
+  - Top-3 contexts outperform top-1; `llama-3-8b` reaches the highest cosine similarity (0.80).
+  - Grover and classic selection are nearly identical (quality differences <0.5%).
+  - No-context variants show a significant quality drop across models.
 
 ![Cosine Similarity Comparison](tests/evaluation/results_images/cosine_summary_plot.png)
 
 ### Test 2: End-to-End Timing (SQuAD 1.1, 56 questions)
-Reported averages:
+Reported averages (end-to-end timing, including context selection):
 | Component | Time |
 | --- | --- |
 | Context retrieval (top-10) | 0.297 s |
@@ -72,7 +76,16 @@ Reported averages:
 | Answer generation (`llama-3-8b`) | 2.56 s |
 | Answer generation (`phi-3.5`) | 2.65 s |
 
+Additional findings from the recorded summary:
+- Context consistency: 99.11% match between Grover and classic selection; a single discrepancy occurred when Grover’s dynamic threshold excluded all contexts.
+- Quality validation: `top3` > `top1` > `no_context`; `llama-3-8b` again achieved the highest cosine similarity (0.80).
+
 ![Timing vs Quality](tests/evaluation/results_images/cosine_summary_plot2.png)
+
+### Key Conclusions (Summary)
+- Grover adds ~30 ms latency vs. classic selection while maintaining selection quality.
+- Context is critical: three contexts substantially improve accuracy vs. no context.
+- Model tradeoff: `mixtral-8x7b` is fastest, `llama-3-8b` is most accurate on this benchmark.
 
 ## UI Demo
 The Streamlit interface supports model comparison, context inspection, and collapsible answers:
